@@ -69,7 +69,13 @@ class FoodsController < ApplicationController
     @transaction = Transaction.find_by(food: @food, status: :保留中)
     Rails.logger.debug "Pending transaction: #{@transaction&.inspect}"
     
-    if @transaction
+    if @transaction&.receiver != current_user
+      Rails.logger.warn "Unauthorized attempt to complete transaction for food #{@food.id} by user #{current_user.id}"
+      redirect_to root_path, alert: '予約者のみが取引を完了できます。'
+    elsif @food.status != '予約済み'
+      Rails.logger.warn "Attempt to complete transaction for non-reserved food #{@food.id}"
+      redirect_to root_path, alert: '予約済みの食材のみ取引完了できます。'
+    elsif @transaction
       provider = @transaction.provider
       receiver = @transaction.receiver
   
@@ -95,11 +101,11 @@ class FoodsController < ApplicationController
           # ユーザーの統計情報を更新
           provider.increment!(:share_count)
           receiver.increment!(:receive_count)
-
+  
           # おすそわけポイントの更新
           provider.update_osusowake_point
           receiver.update_osusowake_point
-
+  
           Rails.logger.info "Transaction completed successfully for food #{@food.id}"
           redirect_to root_path, notice: '取引が完了しました。'
         rescue => e
