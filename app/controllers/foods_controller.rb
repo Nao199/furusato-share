@@ -1,6 +1,6 @@
 class FoodsController < ApplicationController
   before_action :set_food, only: [:show, :edit, :update, :destroy, :reserve, :complete_transaction]
-  before_action :authenticate_user!, only: [:reserve, :complete_transaction]
+  before_action :authenticate_user!, except: [:index]
 
   def index
     @foods = Food.all
