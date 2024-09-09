@@ -1,0 +1,32 @@
+<%= render "shared/second-header" %>
+
+<div class="login-container">
+  <h2><span class="highlight">おかえりなさい！</h2>
+  <p class="subtitle">ログインしてね</p>
+
+  <%= form_with(model: @user, url: user_session_path, local: true, class: 'login-form') do |f| %>
+    <div class="form-group">
+      <%= f.label :email, 'メールアドレス' %>
+      <%= f.email_field :email, required: true, placeholder: '例：taro@example.com' %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :password, 'パスワード' %>
+      <%= f.password_field :password, required: true, placeholder: 'パスワードを入力' %>
+    </div>
+
+    <div class="form-group remember-me">
+      <%= f.check_box :remember_me %>
+      <%= f.label :remember_me, 'ログイン状態を保持する' %>
+    </div>
+
+    <%= f.submit 'ログイン', class: 'submit-btn' %>
+  <% end %>
+
+  <div class="additional-links">
+    <%= link_to "パスワードをお忘れの方", new_password_path(resource_name) %><br />
+    <%= link_to "アカウントをお持ちでない方", new_registration_path(resource_name) %>
+  </div>
+</div>
+
+<%= render "shared/footer" %>

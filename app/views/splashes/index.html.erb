@@ -1,0 +1,36 @@
+<%= render "shared/header" %>
+<div class="splash-container">
+  <div class="slideshow-container">
+    <div class="slideshow">
+      <img src="<%= asset_path('japan-map-1.jpg') %>" alt="Japan Map 1" class="slide">
+      <img src="<%= asset_path('japan-map-2.jpg') %>" alt="Japan Map 2" class="slide">
+      <img src="<%= asset_path('japan-map-3.jpg') %>" alt="Japan Map 3" class="slide">
+    </div>
+  </div>
+  <div class="content">
+    <div class="logo-container">
+      <img src="<%= asset_path('furusato-share-logo.png') %>" alt="FURUSATO-SHARE Logo" class="logo">
+    </div>
+    
+    <p class="tagline">地域の味を、みんなでシェアしよう！あなたのふるさとの味、私のふるさとの味！</p>
+    
+    <div class="splash-info">
+      <p class="highlight">完全無料でご利用いただけます！</p>
+      
+      <h3>こんなお悩みはありませんか？</h3>
+      <ul>
+        <li>様々な地方の特産物を味わってみたい</li>
+        <li>マンション・アパート内の住人と交流を深めたい</li>
+        <li>ふるさと納税の返礼品が多すぎて食べきれない</li>
+        <li>地元から送ってくれた食材を余らせてしまう</li>
+      </ul>
+
+      <div class="cta">
+        <h3>さあ、始めましょう！</h3>
+        <p>美味しい食材のおすそわけで、新しい出会いと感動を。</p>
+        <%= link_to '新規登録', new_user_registration_path, class: 'btn-register' %>
+      </div>
+    </div>
+  </div>
+</div>
+<%= render "shared/footer" %>

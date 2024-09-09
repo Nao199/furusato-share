@@ -1,0 +1,18 @@
+<footer class="footer">
+  <div class="footer-container">
+    <nav class="footer-nav">
+      <ul>
+        <li><%= link_to 'プライバシーポリシー', '#' %></li>
+        <li><%= link_to '利用規約', '#' %></li>
+        <li><%= link_to 'お問い合わせ', '#' %></li>
+      </ul>
+    </nav>
+    <div class="footer-logo-section">
+      <%= link_to root_path, class: 'footer-logo-link' do %>
+        <%= image_tag 'furusato-logo.png', alt: 'FURUSATO SHARE Logo', class: 'footer-logo' %>
+        <span class="footer-title">FURUSATO SHARE</span>
+      <% end %>
+    </div>
+    <p class="copyright">© FURUSATO SHARE</p>
+  </div>
+</footer>

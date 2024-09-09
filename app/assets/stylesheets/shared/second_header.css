@@ -1,0 +1,56 @@
+/* ロゴリンクのスタイル */
+.logo-link {
+  text-decoration: none;
+  transition: transform 0.3s ease;
+}
+
+.logo-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+/* ロゴリンクのホバー効果 */
+.logo-link:hover {
+  transform: scale(1.05);
+}
+
+/* ヘッダーロゴのサイズと配置 */
+.header-logo {
+  height: 40px;
+  width: auto;
+  margin-right: 10px;
+}
+
+.second-logo {
+  height: 30px;
+  width: auto;
+}
+
+/* ナビゲーションの配置 */
+.header-nav {
+  margin-left: auto;
+}
+
+/* ナビゲーションリストのレイアウト */
+.nav-list {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+/* ナビゲーションリンクの共通スタイル */
+.nav-list li a {
+  text-decoration: none;
+  padding: 10px 15px;
+  margin-left: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  display: inline-block;
+}
+
+/* ナビゲーションリンクのホバー効果 */
+.nav-list li a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}

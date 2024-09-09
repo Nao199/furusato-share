@@ -1,0 +1,69 @@
+<%= render "shared/header" %>
+
+<!-- ユーザーマイページコンテナ -->
+<div class="mypage-container">
+  <!-- ユーザープロフィールセクション -->
+  <div class="user-profile">
+    <h1><%= @user.nickname %>さん</h1>
+    <div class="user-title">
+      <span class="title-label">称号:</span>
+      <span class="title-value"><%= @title %></span>
+    </div>
+  </div>
+
+  <!-- 統計情報セクション -->
+  <div class="stats-container">
+    <div class="stat-card">
+      <div class="stat-value"><%= @total_points %></div>
+      <div class="stat-label">おすそ分けポイント</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value"><%= @share_count %></div>
+      <div class="stat-label">おすそ分け回数</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value"><%= @receive_count %></div>
+      <div class="stat-label">受取回数</div>
+    </div>
+  </div>
+
+  <!-- 進捗バーセクション -->
+  <div class="progress-container">
+    <h2>次の称号まであと <%= 10 - @total_points % 10 %> ポイント</h2>
+    <div class="progress-bar">
+      <div class="progress" style="width: <%= (@total_points % 10) * 10 %>%;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- おすそ分け一覧セクション -->
+<div class="contents row">
+  <div class="food-grid">
+    <% @foods.each do |food| %>
+      <!-- 個別の食品アイテム -->
+      <div class="food-item">
+        <%= link_to food_path(food), class: "food-list-image-link" do %>
+          <div class="food-list-image-wrapper">
+            <%= image_tag food.image.variant(resize: "300x300^", gravity: "center", crop: "300x300+0+0"), class: "food-image" if food.image.attached? %>
+            <% if food.status == '予約済み' %>
+              <div class="food-list-status-overlay reserved">
+                <span>予約中</span>
+              </div>
+            <% elsif food.status == '共有済み' %>
+              <div class="food-list-status-overlay completed">
+                <span>取引完了</span>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+        <div class="food-info">
+          <h4><%= food.name %></h4>
+          <p><%= truncate(food.description, length: 50) %></p>
+          <p>期限: <%= food.expiration_date %></p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<%= render "shared/footer" %>

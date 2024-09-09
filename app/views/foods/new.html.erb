@@ -1,0 +1,74 @@
+<%= render "shared/second-header" %>
+
+<div class="register-container">
+  <h2><span class="highlight">旬の食材をシェア</span></h2>
+  <p class="subtitle">食材情報を入力しよう</p>
+  <%= form_with model: @food, url: foods_path, local: true do |f| %>
+    
+    <div class="form-group">
+      <%= f.label :image, "食材画像" %>
+      <%= f.file_field :image, accept: 'image/*', class: 'image-input' %>
+      <div id="image-preview" class="image-preview">
+        <%= image_tag @food.image.variant(resize: '500x500'), class: 'preview-image' if @food.image.attached? %>
+      <span class="required">必須</span>
+      </div>
+    </div>    
+
+    <div class="form-group">
+      <%= f.label :name, "食材名" %>
+      <%= f.text_field :name, required: true, placeholder: "例: 青森県産りんご（品種はふじ）" %>
+      <span class="required">必須</span>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :description, "説明" %>
+      <%= f.text_area :description, placeholder: "例：りんごが旬な時期になりました。地元から送ってもらったのですが、食べきれなくて。" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :quantity, "数量" %>
+      <%= f.number_field :quantity, required: true, min: 1, placeholder: "例: 3" %>
+      <span class="required">必須</span>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :expiration_date, "賞味期限" %>
+      <%= f.date_field :expiration_date, min: Date.today, required: true %>
+      <span class="required">必須</span>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :category_id, "カテゴリー" %>
+      <%= f.collection_select :category_id, Category.all, :id, :name, { prompt: "選択してください" }, required: true %>
+      <span class="required">必須</span>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :furusato_id, "ふるさと" %>
+      <%= f.collection_select :furusato_id, Furusato.all, :id, :name, { prompt: "選択してください" }, required: true %>
+      <span class="required">必須</span>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :available_from, "提供開始日時" %>
+      <%= f.datetime_local_field :available_from, min: DateTime.now.strftime("%Y-%m-%dT%H:%M"), required: true %>
+      <span class="required">必須</span>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :available_until, "提供終了日時" %>
+      <%= f.datetime_local_field :available_until, min: DateTime.now.strftime("%Y-%m-%dT%H:%M"), required: true %>
+      <span class="required">必須</span>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :pickup_location_id, "受け取り場所" %>
+      <%= f.collection_select :pickup_location_id, PickupLocation.all, :id, :name, { prompt: "選択してください" }, required: true %>
+      <span class="required">必須</span>
+    </div>
+
+    <%= f.submit "登録する", class: "submit-btn" %>
+  <% end %>
+</div>
+
+<%= render "shared/footer" %>

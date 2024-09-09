@@ -1,0 +1,76 @@
+<%= link_to new_food_path, class: "new-food-link" do %>
+  <%= image_tag 'add_food_icon.png', alt: '食材登録', class: 'new-food-icon' %>
+<% end %>
+
+<%= render "shared/header" %>
+
+<div class="category-sort">
+  <ul class="category-list">
+    <li>
+      <%= link_to image_tag('all.png', alt: '全て表示'), foods_path, class: 'category-link' %>
+    </li>
+    <li>
+    <li>
+      <%= link_to image_tag('furusato_nouzei.png', alt: 'ふるさと納税返礼品'), foods_path(category_id: 2), class: 'category-link' %>
+    </li>
+    <li>
+      <%= link_to image_tag('tokusan.png', alt: '故郷の特産物'), foods_path(category_id: 3), class: 'category-link' %>
+    </li>
+    <li>
+      <%= link_to image_tag('hokkaido.png', alt: '北海道'), foods_path(furusato_id: 2), class: 'category-link' %>
+    </li>
+    <li>
+      <%= link_to image_tag('tohoku.png', alt: '東北'), foods_path(furusato_ids: [3,4,5,6,7,8]), class: 'category-link' %>
+    </li>
+    <li>
+      <%= link_to image_tag('kanto.png', alt: '関東'), foods_path(furusato_ids: [9,10,11,12,13,14,15]), class: 'category-link' %>
+    </li>
+    <li>
+      <%= link_to image_tag('chubu.png', alt: '中部'), foods_path(furusato_ids: (16..26).to_a), class: 'category-link' %>
+    </li>
+    <li>
+      <%= link_to image_tag('kinki.png', alt: '近畿'), foods_path(furusato_ids: (27..31).to_a), class: 'category-link' %>
+    </li>
+    <li>
+      <%= link_to image_tag('chugoku_shikoku.png', alt: '中国・四国'), foods_path(furusato_ids: (32..40).to_a), class: 'category-link' %>
+    </li>
+    <li>
+      <%= link_to image_tag('kyushu.png', alt: '九州'), foods_path(furusato_ids: (43..47).to_a), class: 'category-link' %>
+    </li>
+  </ul>
+</div>
+
+<div class="food-list-header">
+  <h2>ふるさとの味、みんなで分かち合う幸せの食卓</h2>
+  <p>地域の絆を深める、おすそわけの輪。あなたの一品が、誰かの笑顔に。</p>
+</div>
+<div class="food-list-container">
+  <div class="food-grid">
+    <% @foods.each do |food| %>
+      <%= link_to food_path(food), class: "food-item-link" do %>
+        <div class="food-item">
+          <div class="food-list-image-wrapper">
+            <%= image_tag food.image.variant(resize: "300x300^", gravity: "center", crop: "300x300+0+0"), class: "food-image" if food.image.attached? %>
+            <% if food.status == '予約済み' %>
+              <div class="food-list-status-overlay reserved">
+                <span>予約中</span>
+              </div>
+            <% elsif food.status == '共有済み' %>
+              <div class="food-list-status-overlay completed">
+                <span>取引完了</span>
+              </div>
+            <% end %>
+          </div>
+          <div class="food-info">
+            <h3><%= food.name %></h3>
+            <p><%= truncate(food.description, length: 50) %></p>
+            <p>期限: <%= food.expiration_date %></p>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+<%= render "shared/footer" %>
+

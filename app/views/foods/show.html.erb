@@ -1,0 +1,75 @@
+<%= render "shared/second-header" %>
+
+<div class="food-detail-container">
+  <div class="food-image-container">
+    <%= image_tag @food.image.variant(resize: "600x600^", gravity: "center", crop: "600x600+0+0"), class: "food-detail-image" if @food.image.attached? %>
+    <% if @food.status == '予約済み' %>
+      <div class="status-overlay reserved">
+        <span>予約中</span>
+      </div>
+    <% elsif @food.status == '共有済み' %>
+      <div class="status-overlay completed">
+        <span>取引完了</span>
+      </div>
+    <% end %>
+  </div>
+  
+  <div class="food-info-container">
+    <h1 class="food-title"><%= @food.name %></h1>
+    
+    <div class="food-meta">
+      <span class="expiration-date">賞味期限: <%= @food.expiration_date.strftime('%Y年%m月%d日') %></span>
+      <span class="category">カテゴリー: <%= @food.category.name %></span>
+    </div>
+    
+    <p class="food-description"><%= @food.description %></p>
+    
+    <div class="food-details">
+      <div class="detail-item">
+        <span class="detail-label">数量:</span>
+        <span class="detail-value"><%= @food.quantity %></span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">提供者:</span>
+        <span class="detail-value"><%= @food.user.nickname %></span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">アレルゲン情報:</span>
+        <span class="detail-value"><%= @food.allergen_info.present? ? @food.allergen_info : "情報なし" %></span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">ふるさと:</span>
+        <span class="detail-value"><%= @food.furusato.name %></span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">状態:</span>
+        <span class="detail-value"><%= @food.status %></span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">提供可能期間:</span>
+        <span class="detail-value"><%= "#{@food.available_from.strftime('%Y/%m/%d %H:%M')} - #{@food.available_until.strftime('%Y/%m/%d %H:%M')}" %></span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">受け取り場所:</span>
+        <span class="detail-value"><%= @food.pickup_location.name %></span>
+      </div>
+    </div>
+    
+    <div class="action-buttons">
+      <% if current_user && @food.status == '予約済み' %>
+        <% if current_user == @food.user || current_user == @food.transactions.find_by(status: '保留中')&.receiver %>
+          <%= button_to "取引完了", complete_transaction_food_path(@food), method: :post, class: "btn btn-success", data: { turbo_confirm: "取引を完了しますか？" } %>
+        <% end %>
+      <% elsif current_user && current_user.id != @food.user_id && @food.status == '利用可能' %>
+        <%= button_to "予約する", reserve_food_path(@food), method: :post, class: "btn btn-primary", data: { turbo_confirm: "この食材を予約しますか？" } %>
+      <% end %>
+      <%= link_to "戻る", "/", class: "btn btn-secondary" %>
+      <% if current_user && current_user.id == @food.user_id && @food.status == '利用可能' %>
+        <%= link_to "削除", food_path(@food), data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" }, class: "btn btn-danger" %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
+<%= render "shared/footer" %>
