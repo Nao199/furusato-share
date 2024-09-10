@@ -135,8 +135,11 @@ https://furusato-share-41311.onrender.com/splashes
 
 # ローカルでの動作環境
 以下のコマンドを順に実行
+
 git clone https://github.com/Nao199/furusato-share
+
 % cd furusato-share
+
 % rm -rf .git
 
 # 工夫したポイント
