@@ -8,10 +8,10 @@ Furusato Share
 https://furusato-share-41311.onrender.com/splashes
 
 # テスト用アカウント
-・Bacic認証パスワード ：admin
-・Bacic認証ID : 2222
-・メールアドレス : test@mail.com
-・パスワード : test123456
+・Bacic認証パスワード ：admin  
+・Bacic認証ID : 2222  
+・メールアドレス : test@mail.com  
+・パスワード : test123456  
 
 # 利用方法
 
