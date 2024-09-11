@@ -54,6 +54,7 @@ class FoodsController < ApplicationController
 
   def show
     @food = Food.find(params[:id])
+    @total_points = calculate_total_points(current_user) if current_user
   end
 
   def reserve
@@ -146,6 +147,20 @@ class FoodsController < ApplicationController
     unless current_user == @food.user && @food.status == '利用可能'
       redirect_to root_path, alert: 'この操作は許可されていません。'
     end
+  end
+
+  def check_user_points
+    @total_points = calculate_total_points(current_user)
+    if @total_points <= 0
+      redirect_to @food
+    end
+  end
+
+  def calculate_total_points(user)
+    initial_points = 3
+    shared_points = user.share_count
+    received_points = user.points.where(point_type: -1).count
+    initial_points + shared_points - received_points
   end
 
 end
