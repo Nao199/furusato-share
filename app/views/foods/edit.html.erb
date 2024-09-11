@@ -1,10 +1,21 @@
-<%= render "shared/second-header" %>
+<%= render "shared/header" %>
 
 <div class="register-container">
-  <h2><span class="highlight">旬の食材をシェア</span></h2>
-  <p class="subtitle">食材情報を入力しよう</p>
-  <%= form_with model: @food, url: foods_path, local: true do |f| %>
-    
+  <h2>食材情報の編集</h2>
+  
+  <%= form_with model: @food, local: true do |f| %>
+
+    <% if @food.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@food.errors.count, "error") %> prohibited this food from being saved:</h2>
+        <ul>
+          <% @food.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
     <div class="form-group">
       <%= f.label :image, "食材画像" %>
       <%= f.file_field :image, accept: 'image/*', class: 'image-input' %>
@@ -12,7 +23,7 @@
         <%= image_tag @food.image.variant(resize: '500x500'), class: 'preview-image' if @food.image.attached? %>
       <span class="required">必須</span>
       </div>
-    </div>    
+    </div>   
 
     <div class="form-group">
       <%= f.label :name, "食材名" %>
@@ -43,14 +54,14 @@
     </div>
 
     <div class="form-group">
-      <%= f.label :category_id, "カテゴリー" %>
-      <%= f.collection_select :category_id, Category.all, :id, :name, { prompt: "選択してください" }, required: true %>
+      <%= f.label :category_id, 'カテゴリー' %>
+      <%= f.collection_select :category_id, Category.all, :id, :name, {}, class: 'form-control' %>
       <span class="required">必須</span>
     </div>
 
     <div class="form-group">
-      <%= f.label :furusato_id, "ふるさと" %>
-      <%= f.collection_select :furusato_id, Furusato.all, :id, :name, { prompt: "選択してください" }, required: true %>
+      <%= f.label :furusato_id, 'ふるさと' %>
+      <%= f.collection_select :furusato_id, Furusato.all, :id, :name, {}, class: 'form-control' %>
       <span class="required">必須</span>
     </div>
 
@@ -72,7 +83,10 @@
       <span class="required">必須</span>
     </div>
 
-    <%= f.submit "登録する", class: "submit-btn" %>
+    <div class="form-actions">
+      <%= f.submit '更新する', class: 'btn btn-primary' %>
+      <%= link_to '戻る', food_path(@food), class: 'btn btn-secondary' %>
+    </div>
   <% end %>
 </div>
 

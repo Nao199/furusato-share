@@ -3,7 +3,6 @@ Rails.application.routes.draw do
   root to:'foods#index'
 
   resources :foods do
-    resources :foods , only: [:index, :new, :create, :show, :destroy] 
     member do
       post 'reserve'
       post 'complete_transaction'
