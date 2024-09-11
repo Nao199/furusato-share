@@ -1,6 +1,7 @@
 class FoodsController < ApplicationController
   before_action :set_food, only: [:show, :edit, :update, :destroy, :reserve, :complete_transaction]
   before_action :authenticate_user!, except: [:index]
+  before_action :check_food_owner, only: [:edit, :update]
 
   def index
     @foods = Food.all
@@ -19,6 +20,17 @@ class FoodsController < ApplicationController
     @food = Food.new
   end
   
+  def edit
+  end
+
+  def update
+    if @food.update(food_params)
+      redirect_to @food, notice: '食材情報が更新されました。'
+    else
+      render :edit
+    end
+  end
+
   def create
     @food = Food.new(food_params)
     if @food.save
@@ -127,6 +139,12 @@ class FoodsController < ApplicationController
 
   def set_food
     @food = Food.find(params[:id])
+  end
+
+  def check_food_owner
+    unless current_user == @food.user && @food.status == '利用可能'
+      redirect_to root_path, alert: 'この操作は許可されていません。'
+    end
   end
 
 end
