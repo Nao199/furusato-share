@@ -49,6 +49,7 @@ class FoodsController < ApplicationController
 
   def search
     @foods = Food.search(params[:keyword])
+    render :index
   end
 
   def show

@@ -1,8 +1,8 @@
 /* 全体のコンテナスタイル */
 .mypage-container {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 40px auto; 
-  padding: 0 20px;
+  padding: 20px;
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0 0 15px rgba(0,0,0,0.1);
@@ -10,19 +10,15 @@
 
 /* ユーザープロフィールセクション */
 .user-profile {
-  text-align: left;
   margin-bottom: 30px;
 }
 
 .user-profile h1 {
-  text-align: left; 
   color: #070f02;
   margin-bottom: 5px;
-  width: 100%; 
 }
 
 .user-profile .user-title {
-  text-align: center; 
   font-size: 2em;
   margin-top: 15px; 
 }
@@ -37,68 +33,68 @@
   margin-left: 10px;
 }
 
-/* 統計情報コンテナ */
+/* 統計情報セクション */
 .stats-container {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between; /* space-aroundからspace-betweenに変更 */
+  align-items: center; /* 縦方向の中央揃え */
   margin-bottom: 30px;
+  flex-wrap: nowrap; /* 折り返しを防止 */
 }
 
-/* 統計カード */
 .stat-card {
   background-color: #f8f9fa;
-  padding: 20px;
+  padding: 10px; /* パディングを小さく */
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* シャドウを軽く */
   text-align: center;
-  transition: transform 0.3s ease;
-}
-
-.stat-card:hover {
-  transform: translateY(-5px);
+  width: 22%; /* 横幅を小さく */
+  margin: 0 5px; /* 左右のマージンを小さく */
 }
 
 .stat-card .stat-value {
-  font-size: 2em;
+  font-size: 1.5em; /* フォントサイズを小さく */
   font-weight: bold;
   color: #4A7C2A;
 }
 
 .stat-card .stat-label {
-  margin-top: 10px;
+  margin-top: 5px;
   color: #6c757d;
+  font-size: 0.9em; /* ラベルのフォントサイズを小さく */
 }
 
-/* 進捗バーコンテナ */
+/* 進捗バーセクション */
 .progress-container {
-  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
-.progress-container h2 {
-  color: #4A7C2A;
-  margin-bottom: 15px;
-  font-size: 1.5em;
-}
-
-.progress-container .progress-bar {
-  background-color: #e9ecef;
+/* .progress-bar {
+  width: 100%;
+  background-color: #e0e0e0;
   border-radius: 10px;
-  height: 20px;
   overflow: hidden;
 }
 
-.progress-container .progress {
+.progress {
+  height: 20px;
   background-color: #4A7C2A;
-  height: 100%;
-  transition: width 0.5s ease;
+  transition: width 0.5s ease-in-out;
 }
 
-/* コンテンツ行 */
-.contents.row {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+.progress-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+  font-size: 14px;
+  color: #666;
 }
+
+.progress-current {
+  font-weight: bold;
+  color: #4A7C2A;
+} */
 
 /* 食品グリッドレイアウト */
 .food-grid {
@@ -136,4 +132,132 @@
   color: #4A7C2A;
   margin-bottom: 2px;
   font-size: 16px;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 600px) {
+  .stat-card {
+    width: calc(50% - 20px);
+  }
+  
+  .user-profile h1 {
+    font-size: 24px;
+  }
+  
+  .user-profile .user-title {
+    font-size: 1.5em;
+  }
+}
+
+/* 既存のCSSはそのままで、以下を追加 */
+
+/* ユーザー詳細情報セクション */
+.user-details {
+  margin-top: 30px;
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.user-details h2 {
+  color: #4A7C2A;
+  margin-bottom: 15px;
+  font-size: 1.5em;
+}
+
+.user-details table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.user-details th, .user-details td {
+  padding: 10px;
+  border-bottom: 1px solid #dee2e6;
+  text-align: left;
+}
+
+.user-details th {
+  width: 30%;
+  color: #6c757d;
+  font-weight: normal;
+}
+
+/* 取引履歴セクション */
+.transaction-history {
+  margin-top: 30px;
+}
+
+.transaction-history h2 {
+  color: #4A7C2A;
+  margin-bottom: 15px;
+  font-size: 1.5em;
+}
+
+.transaction-history table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.transaction-history th, .transaction-history td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.transaction-history th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+  color: #4A7C2A;
+}
+
+.transaction-history tr:last-child td {
+  border-bottom: none;
+}
+
+.transaction-history tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+/* レスポンシブデザインの拡張 */
+@media (max-width: 600px) {
+  .user-details th, .user-details td {
+    display: block;
+    width: 100%;
+  }
+
+  .user-details th {
+    background-color: #f8f9fa;
+    padding: 5px 10px;
+  }
+
+  .transaction-history table, .transaction-history thead, .transaction-history tbody, .transaction-history th, .transaction-history td, .transaction-history tr {
+    display: block;
+  }
+
+  .transaction-history thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .transaction-history td {
+    border: none;
+    position: relative;
+    padding-left: 50%;
+  }
+
+  .transaction-history td:before {
+    content: attr(data-label);
+    position: absolute;
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    font-weight: bold;
+  }
 }

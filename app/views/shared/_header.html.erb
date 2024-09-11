@@ -9,16 +9,18 @@
       <% end %>
     </div>
 
-  <div class="header-center">
-    <div class="search-container">
-      <%= form_with(url: search_foods_path, local: true, method: :get, class: "search-form") do |form| %>
-        <div class="search-input-container">
-          <%= form.text_field :keyword, placeholder: "検索する", class: "search-input" %>
-          <%= form.submit "検索", class: "search-btn" %>
-        </div>
-      <% end %>
+  <% if user_signed_in? %>
+    <div class="header-center">
+      <div class="search-container">
+        <%= form_with(url: search_foods_path, local: true, method: :get, class: "search-form") do |form| %>
+          <div class="search-input-container">
+            <%= form.text_field :keyword, placeholder: "検索する", class: "search-input" %>
+            <%= form.submit "検索", class: "search-btn" %>
+          </div>
+        <% end %>
+      </div>
     </div>
-  </div>
+  <% end %>
 
     <nav class="header-nav">
       <ul class="nav-list">

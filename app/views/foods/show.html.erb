@@ -31,7 +31,9 @@
       </div>
       <div class="detail-item">
         <span class="detail-label">提供者:</span>
-        <span class="detail-value"><%= @food.user.nickname %></span>
+        <span class="detail-value">
+          <%= link_to @food.user.nickname, user_path(@food.user), class: "provider-link" %>
+        </span>
       </div>
       <div class="detail-item">
         <span class="detail-label">アレルゲン情報:</span>

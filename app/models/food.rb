@@ -7,11 +7,11 @@ class Food < ApplicationRecord
   belongs_to_active_hash  :furusato
   belongs_to :pickup_location
 
-  def self.search(search)
-    if search != ""
-      Food.where('text LIKE(?)', "%#{search}%")
+  def self.search(keyword)
+    if keyword.present?
+      where('name LIKE ? OR description LIKE ?', "%#{keyword}%", "%#{keyword}%")
     else
-      Food.all
+      all
     end
   end
   

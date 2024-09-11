@@ -1,6 +1,5 @@
 <%= render "shared/header" %>
 
-<!-- ユーザーマイページコンテナ -->
 <div class="mypage-container">
   <!-- ユーザープロフィールセクション -->
   <div class="user-profile">
@@ -25,45 +24,110 @@
       <div class="stat-value"><%= @receive_count %></div>
       <div class="stat-label">受取回数</div>
     </div>
+    <div class="stat-card">
+      <div class="stat-value"><%= @provision_count %></div>
+      <div class="stat-label">提供回数</div>
+    </div>
   </div>
 
   <!-- 進捗バーセクション -->
-  <div class="progress-container">
-    <h2>次の称号まであと <%= 10 - @total_points % 10 %> ポイント</h2>
+  <!--<div class="progress-container">
+    <h2>次の称号まであと <%= @points_for_next_title %> ポイント</h2>
     <div class="progress-bar">
-      <div class="progress" style="width: <%= (@total_points % 10) * 10 %>%;"></div>
+      <div class="progress" style="width: <%= @progress_percentage %>%;"></div>
     </div>
+    <div class="progress-labels">
+      <span class="progress-start">0</span>
+      <span class="progress-current"><%= @total_points %></span>
+      <span class="progress-end"><%= @max_points %></span>
+    </div>
+  </div>-->
+
+  <!-- ユーザー詳細情報セクション -->
+  <div class="user-details">
+    <h2>ユーザー情報</h2>
+    <table>
+      <tr>
+        <th>名前</th>
+        <td><%= @user.name %> (<%= @user.name_kana %>)</td>
+      </tr>
+      <tr>
+        <th>生年月日</th>
+        <td><%= @user.birth_date.strftime('%Y年%m月%d日') %></td>
+      </tr>
+      <tr>
+        <th>部屋番号</th>
+        <td><%= @user.room_number %></td>
+      </tr>
+      <tr>
+        <th>アレルギー</th>
+        <td><%= @user.allergies.present? ? @user.allergies : '登録なし' %></td>
+      </tr>
+      <tr>
+        <th>好み・嗜好</th>
+        <td><%= @user.preferences.present? ? @user.preferences : '登録なし' %></td>
+      </tr>
+    </table>
   </div>
+
+  <!-- 取引履歴セクション -->
+<div class="transaction-history">
+  <h2>取引履歴</h2>
+  <% if @transactions.present? %>
+    <table>
+      <thead>
+        <tr>
+          <th>日付</th>
+          <th>種類</th>
+          <th>食品名</th>
+          <th>状態</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @transactions.each do |transaction| %>
+          <tr>
+            <td><%= transaction.created_at.strftime('%Y/%m/%d') %></td>
+            <td><%= transaction.provider_id == @user.id ? '提供' : '受取' %></td>
+            <td><%= transaction.food.name %></td>
+            <td><%= transaction.status || '不明' %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>取引履歴はありません。</p>
+  <% end %>
 </div>
 
 <!-- おすそ分け一覧セクション -->
-<div class="contents row">
-  <div class="food-grid">
-    <% @foods.each do |food| %>
-      <!-- 個別の食品アイテム -->
-      <div class="food-item">
-        <%= link_to food_path(food), class: "food-list-image-link" do %>
-          <div class="food-list-image-wrapper">
-            <%= image_tag food.image.variant(resize: "300x300^", gravity: "center", crop: "300x300+0+0"), class: "food-image" if food.image.attached? %>
-            <% if food.status == '予約済み' %>
-              <div class="food-list-status-overlay reserved">
-                <span>予約中</span>
-              </div>
-            <% elsif food.status == '共有済み' %>
-              <div class="food-list-status-overlay completed">
-                <span>取引完了</span>
-              </div>
-            <% end %>
+<h2>提供した食材</h2>
+  <div class="contents row">
+    <div class="food-grid">
+      <% @user.foods.each do |food| %>
+        <!-- 個別の食品アイテム -->
+        <div class="food-item">
+          <%= link_to food_path(food), class: "food-list-image-link" do %>
+            <div class="food-list-image-wrapper">
+              <%= image_tag food.image.variant(resize: "300x300^", gravity: "center", crop: "300x300+0+0"), class: "food-image" if food.image.attached? %>
+              <% if food.status == '予約済み' %>
+                <div class="food-list-status-overlay reserved">
+                  <span>予約中</span>
+                </div>
+              <% elsif food.status == '共有済み' %>
+                <div class="food-list-status-overlay completed">
+                  <span>取引完了</span>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+          <div class="food-info">
+            <h4><%= food.name %></h4>
+            <p><%= truncate(food.description, length: 50) %></p>
+            <p>期限: <%= food.expiration_date.strftime('%Y/%m/%d') %></p>
           </div>
-        <% end %>
-        <div class="food-info">
-          <h4><%= food.name %></h4>
-          <p><%= truncate(food.description, length: 50) %></p>
-          <p>期限: <%= food.expiration_date %></p>
         </div>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
 </div>
-
 <%= render "shared/footer" %>

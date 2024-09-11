@@ -166,6 +166,17 @@
   color: #212529;
 }
 
+.provider-link {
+  color: #dd52cb;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.provider-link:hover {
+  color: #2C4A1A;
+  text-decoration: underline;
+}
+
 .action-buttons {
   display: flex;
   gap: 15px;
