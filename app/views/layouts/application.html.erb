@@ -10,12 +10,6 @@
     <%= javascript_importmap_tags %>
   </head>
 
-    <% flash.each do |type, message| %>
-    <div class="alert alert-<%= type == 'notice' ? 'success' : 'danger' %> fade show">
-      <%= message %>
-    </div>
-    <% end %>
-
   <body>
     <%= yield %>
   </body>
