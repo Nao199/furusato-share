@@ -1,10 +1,15 @@
 class FoodsController < ApplicationController
+  # 特定のアクションの前に食品を設定
   before_action :set_food, only: [:show, :edit, :update, :destroy, :reserve, :complete_transaction]
+  # index以外のアクションでユーザー認証を要求
   before_action :authenticate_user!, except: [:index]
+  # 編集と更新時に食品の所有者をチェック
   before_action :check_food_owner, only: [:edit, :update]
 
+  # 食品一覧を表示
   def index
     @foods = Food.all
+    # カテゴリー、ふるさとIDでフィルタリング
     if params[:category_id].present?
       @foods = @foods.where(category_id: params[:category_id])
     elsif params[:furusato_id].present?
@@ -13,16 +18,20 @@ class FoodsController < ApplicationController
       @foods = @foods.where(furusato_id: params[:furusato_ids])
     end
 
+    # 作成日時の降順で並べ替え
     @foods = @foods.order(created_at: :desc)
   end
 
+  # 新規食品作成フォームを表示
   def new
     @food = Food.new
   end
   
+  # 食品編集フォームを表示
   def edit
   end
 
+  # 食品情報を更新
   def update
     if @food.update(food_params)
       redirect_to @food, notice: '食材情報が更新されました。'
@@ -31,6 +40,7 @@ class FoodsController < ApplicationController
     end
   end
 
+  # 新規食品を作成
   def create
     @food = Food.new(food_params)
     if @food.save
@@ -41,22 +51,26 @@ class FoodsController < ApplicationController
     end
   end
 
+  # 食品を削除
   def destroy
     food = Food.find(params[:id])
     food.destroy
     redirect_to root_path
   end
 
+  # キーワードで食品を検索
   def search
     @foods = Food.search(params[:keyword])
     render :index
   end
 
+  # 食品詳細を表示
   def show
     @food = Food.find(params[:id])
     @total_points = calculate_total_points(current_user) if current_user
   end
 
+  # 食品を予約
   def reserve
     if @food.user_id != current_user.id && @food.status == '利用可能'
       ActiveRecord::Base.transaction do
@@ -76,6 +90,7 @@ class FoodsController < ApplicationController
     redirect_to root_path, alert: '予約処理中にエラーが発生しました。'
   end
 
+  # 取引を完了
   def complete_transaction
     Rails.logger.debug "Food ID: #{@food.id}"
     Rails.logger.debug "Current food status: #{@food.status}"
@@ -95,10 +110,11 @@ class FoodsController < ApplicationController
   
       Food.transaction do
         begin
+          # 食品状態と取引状態を更新
           @food.update!(status: :共有済み)
           @transaction.update!(status: :完了)
   
-          # ポイントの付与（提供者に1ポイント、受取者に-1ポイント）
+          # ポイントを付与
           Point.create!(
             food_transaction: @transaction,
             point_type: 1,
@@ -112,11 +128,11 @@ class FoodsController < ApplicationController
             amount: 1
           )
   
-          # ユーザーの統計情報を更新
+          # ユーザー統計を更新
           provider.increment!(:share_count)
           receiver.increment!(:receive_count)
   
-          # おすそわけポイントの更新
+          # おすそわけポイントを更新
           provider.update_osusowake_point
           receiver.update_osusowake_point
   
@@ -135,20 +151,24 @@ class FoodsController < ApplicationController
   end
   
   private
+  # 許可されたパラメータを定義
   def food_params
     params.require(:food).permit(:image, :name, :description, :quantity, :expiration_date, :allergen_info, :category_id, :furusato_id, :status, :available_from, :available_until, :pickup_location_id,).merge(user_id: current_user.id)
   end
 
+  # 指定されたIDの食品を取得
   def set_food
     @food = Food.find(params[:id])
   end
 
+  # 現在のユーザーが食品の所有者であることを確認
   def check_food_owner
     unless current_user == @food.user && @food.status == '利用可能'
       redirect_to root_path, alert: 'この操作は許可されていません。'
     end
   end
 
+  # ユーザーのポイントをチェック
   def check_user_points
     @total_points = calculate_total_points(current_user)
     if @total_points <= 0
@@ -156,6 +176,7 @@ class FoodsController < ApplicationController
     end
   end
 
+  # ユーザーの合計ポイントを計算
   def calculate_total_points(user)
     initial_points = 3
     shared_points = user.share_count
