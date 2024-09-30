@@ -1,18 +1,28 @@
 <footer class="footer">
   <div class="footer-container">
+    <!-- フッターのナビゲーションリンク -->
     <nav class="footer-nav">
       <ul>
+        <!-- プライバシーポリシーへのリンク -->
         <li><%= link_to 'プライバシーポリシー', '#' %></li>
+        <!-- 利用規約へのリンク -->
         <li><%= link_to '利用規約', '#' %></li>
+        <!-- お問い合わせページへのリンク -->
         <li><%= link_to 'お問い合わせ', '#' %></li>
       </ul>
     </nav>
+
+    <!-- フッターのロゴセクション -->
     <div class="footer-logo-section">
       <%= link_to root_path, class: 'footer-logo-link' do %>
+        <!-- アクセシビリティのためのaltテキスト付きロゴ画像 -->
         <%= image_tag 'furusato-logo.png', alt: 'FURUSATO SHARE Logo', class: 'footer-logo' %>
+        <!-- ロゴの隣に表示されるウェブサイトのタイトル -->
         <span class="footer-title">FURUSATO SHARE</span>
       <% end %>
     </div>
+
+    <!-- 著作権表示 -->
     <p class="copyright">© FURUSATO SHARE</p>
   </div>
 </footer>

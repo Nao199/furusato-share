@@ -1,11 +1,15 @@
 <header class='main-header'>
   <div class="header-container">
     <div class="header-content">
+      <!-- トップページへのリンクを持つロゴ -->
       <%= link_to root_path, class: "logo-link" do %>
         <div class="logo-wrapper">
+          <!-- FURUSATO SHAREのロゴ画像 -->
           <%= image_tag 'furusato-logo.png', alt: 'FURUSATO SHARE Logo', class: 'header-logo' %>
+          <!-- セカンドロゴ画像（必要に応じて使用） -->
           <%= image_tag 'second-logo.png', alt: 'Second Logo', class: 'header-logo second-logo' %>
         </div>
       <% end %>
     </div>
+  </div>
 </header>
