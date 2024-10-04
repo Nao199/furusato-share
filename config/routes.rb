@@ -7,15 +7,15 @@ Rails.application.routes.draw do
 
   # 食品関連のリソースルーティング
   resources :foods do
-    member do
-      # 個別の食品に対する予約アクション
-      post 'reserve'
-      # 取引完了アクション
-      post 'complete_transaction'
-    end    
     collection do
-      # 食品検索アクション
-      get 'search'
+      get 'search' # 食品検索のルート
+    end
+  end
+
+  resources :transactions, only: [] do
+    member do
+      post 'reserve'           # 食品予約アクション
+      post 'complete_transaction' # 取引完了アクション
     end
   end
 
@@ -24,4 +24,7 @@ Rails.application.routes.draw do
 
   # ユーザープロフィール表示用のルーティング
   resources :users, only: [:show]
+
+  # ポイント表示用のルーティング
+  resources :points, only: [:index]
 end

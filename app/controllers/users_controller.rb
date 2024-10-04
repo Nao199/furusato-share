@@ -50,26 +50,4 @@ class UsersController < ApplicationController
     end
   end
 
-  # ユーザーの進捗状況を計算するメソッド（現在は使用されていない）
-  # def calculate_progress
-  #   titles = [
-  #     { name: "エコフレンドリー・ルーキー", max: 3 },
-  #     { name: "コミュニティ・ハーモナイザー", max: 6 },
-  #     { name: "サステナブル・インフルエンサー", max: 9 },
-  #     { name: "エコ・コミュニティ・チャンピオン", max: Float::INFINITY }
-  #   ]
-  
-  #   current_title = titles.find { |t| @total_points <= t[:max] }
-  #   next_title = titles[titles.index(current_title) + 1]
-  
-  #   if next_title
-  #     @points_for_next_title = next_title[:max] - @total_points
-  #     @progress_percentage = ((@total_points - current_title[:max].to_f) / (next_title[:max] - current_title[:max])) * 100
-  #   else
-  #     @points_for_next_title = 0
-  #     @progress_percentage = 100
-  #   end
-  
-  #   @max_points = next_title ? next_title[:max] : current_title[:max]
-  # end
 end
