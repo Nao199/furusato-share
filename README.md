@@ -147,4 +147,4 @@ git clone https://github.com/Nao199/furusato-share
 # 改善点
 
 # 制作時間
-4日
+14日
