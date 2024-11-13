@@ -142,9 +142,5 @@ git clone https://github.com/Nao199/furusato-share
 
 % rm -rf .git
 
-# 工夫したポイント
-
-# 改善点
-
 # 制作時間
 14日
