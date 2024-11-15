@@ -43,6 +43,8 @@ https://furusato-share-41311.onrender.com/splashes
 
 # 実装予定の機能
 ・チャット機能
+・コメント機能
+・フォロー機能
 
 # データベース設計
 ## テーブル設計
