@@ -65,7 +65,7 @@
         <% end %>
       <% elsif @food.status == '利用可能' %>
         <% if current_user.id != @food.user_id %>
-          <%= button_to "予約する", reserve_food_path(@food), method: :post, class: "btn btn-primary", data: { turbo_confirm: "この食材を予約しますか？" } %>
+          <%= button_to "予約する", reserve_transaction_path(@food), method: :post, class: "btn btn-primary", data: { turbo_confirm: "この食材を予約しますか？" } %>
         <% elsif current_user.id == @food.user_id %>
           <%= link_to "編集", edit_food_path(@food), class: "btn btn-warning" %>
           <%= link_to "削除", food_path(@food), data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" }, class: "btn btn-danger" %>

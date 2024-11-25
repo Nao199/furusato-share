@@ -11,7 +11,7 @@ class TransactionsController < ApplicationController
           food: @food,
           provider: @food.user,
           receiver: current_user,
-          status: '保留中'
+          status: :pending  # シンボルを使用
         )
       end
       redirect_to root_path, notice: '食材の予約が完了しました。'
